@@ -19,8 +19,9 @@ public class UtilityPrograms {
 	        5       50
 	       /       /  \
 	     1       40   100
-	     
-	     output: 1	5	10	40	50	100
+	     				/
+	     			    60
+	     output: 1	5	10	40	50 60	100
 	 * */
 	
 	   public void inorderTraversal(Node focusNode)
@@ -361,5 +362,48 @@ public static void printTreeInwardSpiral(Node root)
 		list.clear();
 	}
 	
+}
+
+/*
+ * 
+Find sum of all left leaves in a given Binary Tree
+
+Given a Binary Tree, find sum of all left leaves in it. For example, sum of all left leaves in below Binary Tree is 1+40+20=61
+
+tree
+ Examples:
+
+	    Input:
+	            10
+	          /    \
+	        5       50
+	       /       /  \
+	     1       40   100
+	     		 	   /
+	     		 	  20
+	    Output:  1+40+20=61
+ * */
+public static int sumLeftLeaves(Node root)
+{
+int sum=0;
+if(root.getLeftchild()==null && root.getRightchild()==null)
+return sum;
+Queue<Node> q = new LinkedList<Node>();
+q.add(root);
+while(!q.isEmpty())
+{
+	Node temp = q.remove();
+	if(temp.getLeftchild()!=null)
+	{
+		q.add(temp.getLeftchild());
+		if(temp.getLeftchild().getLeftchild()==null && temp.getLeftchild().getRightchild()==null)
+		sum += temp.getLeftchild().getData();
+	}
+	if(temp.getRightchild()!=null)
+	{
+		q.add(temp.getRightchild());
+	}
+}
+return sum;
 }
 }

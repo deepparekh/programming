@@ -56,6 +56,7 @@ public class BinaryTree {
 	        theTree.add(5);
 	        theTree.add(1);
 	        theTree.add(40);
+	        theTree.add(60);
 	        System.out.println("Inorder Traversal----->>>>>");
 	        utility.inorderTraversal(theTree.root);
 	        System.out.println("\nPre order Traversal ------_>>>>");
@@ -75,6 +76,8 @@ public class BinaryTree {
 	     utility.assignNeighbours(theTree.root);
 	     System.out.println("Inward Spiral order of tree");
 	     utility.printTreeInwardSpiral(theTree.root);
+	     System.out.println("\nPrint the sum of left leaves -->> "+utility.sumLeftLeaves(theTree.root));
+	     
 	       
 	    }
 	}
