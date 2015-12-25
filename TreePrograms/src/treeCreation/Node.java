@@ -5,6 +5,24 @@ public class Node {
 	private int hd;
 	private Node leftchild;
 	private Node rightchild;
+	private Node neighbour;
+	private int level;
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public Node getNeighbour() {
+		return neighbour;
+	}
+
+	public void setNeighbour(Node neighbour) {
+		this.neighbour = neighbour;
+	}
 
 	public Node(int data) {
 		super();

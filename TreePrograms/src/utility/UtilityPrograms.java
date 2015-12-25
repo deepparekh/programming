@@ -1,13 +1,28 @@
 package utility;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 
 import treeCreation.Node;
 
 public class UtilityPrograms {
+	/*Print tree in inorder traversal. 
+	 * For input: 
+	 *         10
+	          /    \
+	        5       50
+	       /       /  \
+	     1       40   100
+	     
+	     output: 1	5	10	40	50	100
+	 * */
+	
 	   public void inorderTraversal(Node focusNode)
 	    {
 	    if(focusNode!=null)
@@ -216,4 +231,135 @@ public class UtilityPrograms {
 	        }
 	    }
 
+	    
+	    /*
+	     *  
+You have a BST and you need to assign an appropriate value to neighbor of all nodes 
+(Explained in below example)
+Node Structure
+
+node {
+                     node leftChild,
+                     node rightChild,
+                     T data,
+                      node neighbor
+                     }
+
+A
+/ \
+B C
+/ \ \
+D E F
+
+Based on above tree,
+
+Node: Neighbor
+A: NULL
+B: C
+D: E
+E: F
+	     * 
+	     * */
+	    public static void assignNeighbours(Node root)
+	    {
+	    	Map<Integer,List<Node>> map = levelToListMap(root);
+	    	List<Node> list; 
+	    	for(int key : map.keySet())
+	    	{
+	    		System.out.print("\nLevel -->> " + key);
+	    		System.out.print("------>> ");
+	    		for(Node node : map.get(key))
+	    		{
+	    			System.out.print("\t" + node.getData());
+	    		}
+	    	}
+	    	System.out.println("\nAssiging neighbours");
+	    	for(int key:map.keySet())
+	    	{
+	    		list = map.get(key);
+	    		if(list.size()==1)
+	    		{
+	    			list.get(0).setNeighbour(null);
+	    			System.out.println(list.get(0).getData() +"\t"+"null");
+	    		}
+	    		else
+	    		{
+	    			for(int i=0;i<list.size()-1;i++)
+	    			{
+	    				list.get(i).setNeighbour(list.get(i+1));
+	    				System.out.println(list.get(i).getData() + "\t" + list.get(i+1).getData());
+	    			}
+	    			System.out.println(list.get(list.size()-1).getData() + "\t" + "null");
+	    		}
+	    	}
+	    }
+	    /*
+	     * Utility function for returning map corresponds to <level,list_of_nodes> */
+public static Map<Integer,List<Node>> levelToListMap(Node root)
+{
+	Queue<Node> q = new LinkedList<Node>();
+	Map<Integer,List<Node>> map = new HashMap<Integer,List<Node>>();
+	List<Node> list; 
+	root.setLevel(0);
+	q.add(root);
+	while(!q.isEmpty())
+	{
+		Node temp = q.remove();
+		if(map.get(temp.getLevel())==null)
+		{
+			list = new ArrayList<Node>();
+			list.add(temp);
+			map.put(temp.getLevel(), list);
+		}
+		else
+		{
+			map.get(temp.getLevel()).add(temp);
+		}
+		if(temp.getLeftchild()!=null)
+		{
+			temp.getLeftchild().setLevel(temp.getLevel()+1);
+			q.add(temp.getLeftchild());
+		}
+		if(temp.getRightchild()!=null)
+		{
+			temp.getRightchild().setLevel(temp.getLevel()+1);
+			q.add(temp.getRightchild());
+		}
+	}
+	q.clear();
+	return map;
+}
+/*
+Given a binary tree print it in inward spiral order i.e first print level 1, 
+then level n, then level 2, then n-1 and so on.
+
+For Ex -
+1
+2 3
+4 5 6 7
+8 9 10 11 12 13 14 15
+
+Print- 1 15 14 13 12 11 10 9 8 2 3 7 6 5 4 */
+public static void printTreeInwardSpiral(Node root)
+{
+	Map<Integer,List<Node>> map = levelToListMap(root);
+	int n = map.keySet().size();
+	List<Node> list;
+	for(int i=0,j=n-1;i<=j;i++,j--)
+	{
+		list = map.get(i);
+		for(int k=0;k<list.size();k++)
+		{
+			System.out.println("\t" + list.get(k).getData());
+		}
+		list.clear();
+		list = map.get(j);
+		for(int k=0;k<list.size();k++)
+		{
+			System.out.println("\t" + list.get(k).getData());
+		}
+		list.clear();
+	}
+	
+}
 }
